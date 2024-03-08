@@ -137,17 +137,17 @@
         </el-form-item> -->
         <el-form-item label="性别" prop="gender">
           <el-select v-model="temp.gender" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in genders" :key="item.gender.id" :label="item.gender.gender" :value="item.gender" />
+            <el-option v-for="item in genderTypes" :key="item.gender" :label="item.display_name" :value="item.gender" />
           </el-select>
         </el-form-item>
         <el-form-item label="学级" prop="degree">
           <el-select v-model="temp.degree" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in degrees" :key="item.degree.id" :label="item.degree.degree" :value="item.degree" />
+            <el-option v-for="item in gradeTypes" :key="item.degree" :label="item.display_name" :value="item.degree" />
           </el-select>
         </el-form-item>
         <el-form-item label="专业" prop="subject">
           <el-select v-model="temp.subject" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in subjectTypes" :key="item.id" :label="item.name" :value="item" />
+            <el-option v-for="item in subjectTypes" :key="item.id" :label="item.name" :value="item.name" />
           </el-select>
         </el-form-item>
 
@@ -381,18 +381,9 @@ export default {
       statusOptions: ['published', 'draft', 'deleted'],
       showReviewer: false,
       temp: {
-        gender: {
-          gender: null,
-          id: null
-        },
-        degree: {
-          degree: null,
-          id: null
-        },
-        subject: {
-          id: null,
-          name: null
-        }
+        degree: null,
+        gender: null,
+        subject: null
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -404,14 +395,9 @@ export default {
       uploadDialogVisible: false,
       pvData: [],
       rules: {
-        // type: [{ required: true, message: 'type is required', trigger: 'change' }],
-        // houseNum: [{ required: true, message: '需要房间号', trigger: 'change' }],
-        // floor: [{ required: true, type: 'number', message: '需要楼层', trigger: 'change' }],
-        // buildingName: [{ required: true, message: '需要栋', trigger: 'change' }],
-        // location: [{ required: true, message: '需要位置', trigger: 'change' }],
-        // bed: [{ required: true, type: 'number', message: '需要床位数量', trigger: 'change' }]
-        // timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
-        // title: [{ required: true, message: 'title is required', trigger: 'blur' }]
+        gender: [{ required: true, message: 'gender is required', trigger: 'change' }],
+        degree: [{ required: true, message: 'grade is required', trigger: 'change' }],
+        subject: [{ required: true, message: 'subject is required', trigger: 'change' }]
       },
       downloadLoading: false
     }
@@ -475,18 +461,9 @@ export default {
     },
     resetTemp() {
       this.temp = {
-        gender: {
-          gender: null,
-          id: null
-        },
-        degree: {
-          degree: null,
-          id: null
-        },
-        subject: {
-          id: null,
-          name: null
-        }
+        degree: null,
+        gender: null,
+        subject: null
       }
     },
     handleCreate() {
@@ -533,8 +510,9 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           var tempData = Object.assign({}, this.temp)
-          // tempData.degree = this.degrees.find(item => item.degree.degree === tempData.degree)?.degree
-          // tempData.gender = this.genders.find(item => item.gender.gender === tempData.gender)?.gender
+          tempData.degree = this.degrees.find(item => item.degree.degree === tempData.degree)?.degree
+          tempData.gender = this.genders.find(item => item.gender.gender === tempData.gender)?.gender
+          tempData.subject = this.subjectTypes.find(item => item.name === tempData.subject)
           console.log(tempData)
           updateUser(tempData).then(() => {
             this.getList()

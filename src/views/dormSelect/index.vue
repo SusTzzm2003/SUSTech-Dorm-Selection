@@ -93,6 +93,11 @@
           <span v-else>0</span>
         </template>
       </el-table-column> -->
+      <el-table-column label="Bed" class-name="status-col" width="100">
+        <template slot-scope="{row}">
+          <span>{{ row.bed }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="Remaining" class-name="status-col" width="100">
         <template slot-scope="{row}">
           <el-tag :type="row.status | statusFilter">
@@ -164,10 +169,10 @@ import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
 const locationTypes = [
-  { key: 'P1', display_name: '一期' },
-  { key: 'P2', display_name: '二期' },
-  { key: 'hupan', display_name: '湖畔' }
-  // { key: 'EU', display_name: 'Eurozone' }
+  { key: '欣园', display_name: '欣园' },
+  { key: '荔园', display_name: '荔园' },
+  { key: '湖畔', display_name: '湖畔' },
+  { key: '二期', display_name: '二期' }
 ]
 
 // arr to obj, such as { CN : "China", US : "USA" }

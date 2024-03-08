@@ -9,7 +9,7 @@ import Layout from '@/layout'
 /* Router Modules */
 import viewDormRouter from './modules/view-dorm'
 import teamRouter from '@/router/modules/team'
-
+import Cookies from 'js-cookie'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -103,44 +103,6 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-  {
-    path: '/permission',
-    component: Layout,
-    redirect: '/permission/page',
-    alwaysShow: true, // will always show the root menu
-    name: 'Permission',
-    meta: {
-      title: 'Permission',
-      icon: 'lock',
-      roles: ['admin'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: 'Page Permission'
-        }
-      },
-      {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
-        meta: {
-          title: 'Directive Permission'
-        }
-      },
-      {
-        path: 'role',
-        component: () => import('@/views/permission/role'),
-        name: 'RolePermission',
-        meta: {
-          title: 'Role Permission'
-        }
-      }
-    ]
-  },
   {
     path: '/faculty-dorm',
     component: Layout,
@@ -272,7 +234,21 @@ const createRouter = () => new Router({
 })
 
 const router = createRouter()
+router.beforeEach((to, from, next) => {
+  // 检查是否访问的是需要登录的页面
+  // 假设你有一个判断登录状态的方法，比如 isAuthenticated()
+  const isToken = Cookies.get('username')
+  const isAuthenticated = sessionStorage.getItem('username')
 
+  if (!isAuthenticated && isToken) {
+    sessionStorage.setItem('username', isToken)
+    // 重定向到登录页面
+    next()
+  } else {
+    // 如果认证通过，继续导航
+    next()
+  }
+})
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter()
