@@ -11,10 +11,13 @@
 ```
 - Login / Logout
 
+- Incorporate campus elements into UI design
+
+- Video background
+
 - Global Features
   - Dynamic sidebar (supports multi-level routing)
   - Dynamic breadcrumb
-  - Responsive Sidebar
 
  - Student Functional Features 
   - View and filter available rooms.
@@ -36,8 +39,8 @@
   - Page permission
   
 - Excel
-  - Export Excel
   - Upload Excel
+  - Export Excel
 
 ```
 
